@@ -23,11 +23,39 @@ def main():
     print("0 = Stick")
     print("1 = Hit")
 
+    print("\n=== PARTIE TEST ===")
+
     state, info = env.reset()
 
-    print("\n=== ÉTAT INITIAL ===")
-    print("État :", state)
-    print("Info :", info)
+    print("État initial :", state)
+
+    terminated = False
+    truncated = False
+    step_number = 0
+
+    while not (terminated or truncated):
+
+        action = env.action_space.sample()
+
+        next_state, reward, terminated, truncated, info = env.step(action)
+
+        step_number += 1
+
+        print(
+            f"Étape {step_number} | "
+            f"État={state} | "
+            f"Action={action} | "
+            f"Récompense={reward} | "
+            f"Nouvel état={next_state} | "
+            f"Terminé={terminated}"
+        )
+
+        state = next_state
+
+    print("\n=== FIN DE LA PARTIE ===")
+    print("Récompense finale :", reward)
+    print("Terminated :", terminated)
+    print("Truncated :", truncated)
 
     env.close()
 
